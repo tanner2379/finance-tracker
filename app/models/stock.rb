@@ -1,4 +1,8 @@
 class Stock < ApplicationRecord
+  has_many :user_stocks
+  has_many :users, through: :user_stocks
+
+  validates :ticker, presence: true
 
   def self.new_lookup(ticker_symbol)
     headers = {"Content-Type" => "application/json", "Authorization" => "Token #{Rails.application.credentials.tiingo[:api_token]}" }
