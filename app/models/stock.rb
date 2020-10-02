@@ -13,8 +13,12 @@ class Stock < ApplicationRecord
 
     res = http.request(req)
     response = JSON.parse(res.body)
-
-    response.first
+    
+    begin
+      new(ticker: response.first["ticker"], last_price: response.first["last"])
+    rescue
+      return nil
+    end
   end
 
 end
