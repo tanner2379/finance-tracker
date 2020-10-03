@@ -1,5 +1,24 @@
 <h1>My Friends List</h1>
 
+<div class="search-area">
+  <h3>Search Friends</h3>
+  <%= form_tag search_friend_path, remote: true, method: :get do %>
+    <div class="form-group row">
+      <div class="col-sm-9 no-right-padding">
+        <%= text_field_tag :friend, params[:friend], placeholder: "Name or Email", autofocus: true, class: "form-control form-control-lg" %>
+      </div>
+      <div class="col-sm-3 no-left-padding">
+        <%= button_tag type: :submit, class: "btn btn-success" do %>
+          <%= fa_icon 'search 2x' %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<div class="results">
+  <!--handled with javascript -->
+</div>
+
 <% if current_user.friends %>
   <div class="row">
     <div class="col-9">
@@ -8,7 +27,7 @@
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
-            <th scope="col">Profile</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -16,7 +35,8 @@
             <tr>
               <th scope="row"><%= friend.full_name %></th>
               <td><%= friend.email %></td>
-              <td><%= link_to "Portfolio", '#', class: "btn btn-sm btn-info" %></td>
+              <td><%= link_to "View Profile", user_path(friend), class: "btn btn-sm btn-success" %>
+                <%= link_to "Stop Following", friendship_path(friend), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm btn-warning" %></td>
             </tr>
           <% end %>
         </tbody>
